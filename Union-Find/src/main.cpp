@@ -11,32 +11,49 @@
 #include <sstream>
 #include <iterator>
 
-#include "Piano.h"
+#include "UnionFind.h"
 int main(int argc, const char * argv[])
 {
-//    for(int day = 0; day < 100; day++) {
-//        if(((day+2)/7)*7-2 == day) {
-//            std::cout << std::to_string(day) << "NO" << std::endl;
-//        } else if(((day+1)/7)*7-1 == day) {
-//            std::cout << std::to_string(day) << "NO" << std::endl;
-//        }else {
-//            std::cout << std::to_string(day) << "YES" << std::endl;
-//        }
-//    }
-
+    using namespace unionfind;
     
-    using namespace piano;
+    UnionFind * uf = new UnionFind();
     
-    Piano * piano = new Piano();
-    std::string line;
-    std::getline (std::cin, line);
-    int n = std::stoi(line);
+    while(!std::cin.eof()) {
+        std::string line;
+        std::getline(std::cin, line);
+        std::istringstream iss(line);
+        std::vector<std::string> nAndM{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
+        unsigned int n = std::stoi(nAndM[0]);
+        unsigned int m = std::stoi(nAndM[1]);
+        std::vector<std::vector<int>> structure;
+        
+        for(unsigned int i = 0; i < m; i++) {
+            std::getline(std::cin, line);
+            std::istringstream iss(line);
+            std::vector<std::string> command{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
+            unsigned int operation = std::stoi(command[0]);
+            unsigned int p = std::stoi(command[1]);
+            if(operation == 3){
+                
+            } else {
+                unsigned int q = std::stoi(command[2]);
+                if(operation == 1) {
+                    uf.unionSet(structure, p, q);
+                } else if(operation == 2) {
+                    uf.move(structure, p, q);
+                } else {
+                    throw new std::invalid_argument("Operation: " + std::to_string(operation) + " not allowed");
+                }
+            }
+        }
+        
+        
     
+    }
     for(int i = 0; i < n; i++){
         std::vector<int> pianoDates[100];
         std::getline(std::cin, line);
-        std::istringstream iss(line);
-        std::vector<std::string> pianosAndMovers{std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>{}};
+        
         int pianos = std::stoi(pianosAndMovers[0]);
         int movers = std::stoi(pianosAndMovers[1]);
         
